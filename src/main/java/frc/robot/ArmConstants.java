@@ -7,10 +7,11 @@ package frc.robot;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 /** Add your docs here. */
-public final class WristConstants {
-  public static final int WristMotorID = 20;
+public final class ArmConstants {
+  public static final int ArmMotorID = 20;
+  public static final int MotorDosID = 20;
   public static final boolean motorInverted = false;
-  public static final IdleMode wristIdleMode = IdleMode.kBrake;
+  public static final IdleMode armIdleMode = IdleMode.kBrake;
 
   public static final boolean encoderInverted = false;
   /*on branch tune_lower_intake PID&FF start (not really tuned) */
@@ -23,7 +24,7 @@ public final class WristConstants {
 //   public static final double maxAcceleration = 720, maxVelocity = 360;//Accelaration is in
 //   units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute
 //   (RPM)
-  // public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
+  // public static final double armMaxDegrees = 87, armMinDegrees = -144;
   /*on branch tune_lower_intake PID&FF end (not really tuned) */
   public static final double L2 = -48.8018;
   public static final double L3 = -46.2412;
@@ -44,7 +45,7 @@ public final class WristConstants {
       maxVelocity =
           10000; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
   // units of Revolutions per Minute (RPM)
-  public static final double wristMaxDegrees = 90, wristMinDegrees = -144;
+  public static final double armMaxDegrees = 90, armMinDegrees = -144;
   /*on branch scrimage v2 PID&FF end (not really tuned) */
 
 }

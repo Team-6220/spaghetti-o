@@ -5,14 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.robot.subsystems.V2_SparkMaxArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class moveWristTo0cmd extends Command {
-  /** Creates a new moveWristTo90cmd. */
-  V2_SparkMaxWristSubsystem pidMotor;
-  public moveWristTo0cmd() {
-    pidMotor = V2_SparkMaxWristSubsystem.getInstance();
+public class moveArmTo90cmd extends Command {
+  /** Creates a new moveArmTo90cmd. */
+  V2_SparkMaxArmSubsystem pidMotor;
+  public moveArmTo90cmd() {
+    pidMotor = V2_SparkMaxArmSubsystem.getInstance();
     addRequirements(pidMotor);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,7 +22,7 @@ public class moveWristTo0cmd extends Command {
   @Override
   public void initialize() {
     pidMotor.resetPID();
-    pidMotor.setGoal(0);
+    pidMotor.setGoal(90);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

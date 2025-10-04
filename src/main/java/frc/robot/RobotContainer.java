@@ -8,10 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.driveCommand;
-import frc.robot.commands.moveWristTo0cmd;
-import frc.robot.commands.moveWristTo90cmd;
+import frc.robot.commands.moveArmTo0cmd;
+import frc.robot.commands.moveArmTo90cmd;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.robot.subsystems.V2_SparkMaxArmSubsystem;
 import frc.robot.subsystems.driveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -33,7 +33,7 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final driveSubsystem moveRobot = driveSubsystem.getInstance();
-  private  final V2_SparkMaxWristSubsystem wristSubsystem = V2_SparkMaxWristSubsystem.getInstance();
+  private  final V2_SparkMaxArmSubsystem armSubsystem = V2_SparkMaxArmSubsystem.getInstance();
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,14 +61,14 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.a().onTrue(wristSubsystem.sysIdDynamicForward());
-    m_driverController.b().onTrue(wristSubsystem.sysIdDynamicReverse());
-    m_driverController.x().onTrue(wristSubsystem.sysIdQuasistaticForward());
-    m_driverController.y().onTrue(wristSubsystem.sysIdQuasistaticReverse());
+    m_driverController.a().onTrue(armSubsystem.sysIdDynamicForward());
+    m_driverController.b().onTrue(armSubsystem.sysIdDynamicReverse());
+    m_driverController.x().onTrue(armSubsystem.sysIdQuasistaticForward());
+    m_driverController.y().onTrue(armSubsystem.sysIdQuasistaticReverse());
 
 
-    // m_driverController.y().onTrue(new moveWristTo0cmd());
-    m_driverController.button(7).onTrue(new InstantCommand(()->wristSubsystem.resetRelativeEncoder()));
+    // m_driverController.y().onTrue(new moveArmTo0cmd());
+    m_driverController.button(7).onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
