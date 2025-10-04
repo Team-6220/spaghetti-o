@@ -11,7 +11,7 @@ import frc.robot.commands.driveCommand;
 import frc.robot.commands.moveArmTo0cmd;
 import frc.robot.commands.moveArmTo90cmd;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.V2_SparkMaxArmSubsystem;
+import frc.robot.subsystems.SparkMaxArmSubsystem;
 import frc.robot.subsystems.driveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -33,7 +33,7 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final driveSubsystem moveRobot = driveSubsystem.getInstance();
-  private  final V2_SparkMaxArmSubsystem armSubsystem = V2_SparkMaxArmSubsystem.getInstance();
+  private  final SparkMaxArmSubsystem armSubsystem = SparkMaxArmSubsystem.getInstance();
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

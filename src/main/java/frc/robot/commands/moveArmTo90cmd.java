@@ -5,14 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.V2_SparkMaxArmSubsystem;
+import frc.robot.subsystems.SparkMaxArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class moveArmTo90cmd extends Command {
   /** Creates a new moveArmTo90cmd. */
-  V2_SparkMaxArmSubsystem pidMotor;
+  SparkMaxArmSubsystem pidMotor;
   public moveArmTo90cmd() {
-    pidMotor = V2_SparkMaxArmSubsystem.getInstance();
+    pidMotor = SparkMaxArmSubsystem.getInstance();
     addRequirements(pidMotor);
 
     // Use addRequirements() here to declare subsystem dependencies.

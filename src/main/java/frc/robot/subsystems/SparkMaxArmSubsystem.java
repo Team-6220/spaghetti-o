@@ -26,9 +26,9 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class V2_SparkMaxArmSubsystem extends SubsystemBase {
-  /** Creates a new V2_SparkMaxArmSubsystem. */
-  private static V2_SparkMaxArmSubsystem INSTANCE = null;
+public class SparkMaxArmSubsystem extends SubsystemBase {
+  /** Creates a new SparkMaxArmSubsystem. */
+  private static SparkMaxArmSubsystem INSTANCE = null;
 
   private final TunableNumber armKp =
       new TunableNumber("arm kP", ArmConstants.kP); // TODO: match/make to constant.java
@@ -80,7 +80,7 @@ public class V2_SparkMaxArmSubsystem extends SubsystemBase {
   private final RelativeEncoder armEncoder;
   
 
-  public V2_SparkMaxArmSubsystem() {
+  public SparkMaxArmSubsystem() {
     armMotor = new SparkMax(ArmConstants.ArmMotorID, MotorType.kBrushless);
     dosMotor = new SparkMax(ArmConstants.MotorDosID, MotorType.kBrushless);
     armMotorConfig
@@ -244,9 +244,9 @@ public class V2_SparkMaxArmSubsystem extends SubsystemBase {
    *
    * @return ArmSubsystem Singleton Instance
    */
-  public static synchronized V2_SparkMaxArmSubsystem getInstance() {
+  public static synchronized SparkMaxArmSubsystem getInstance() {
     if (INSTANCE == null) {
-      INSTANCE = new V2_SparkMaxArmSubsystem();
+      INSTANCE = new SparkMaxArmSubsystem();
     }
     return INSTANCE;
   }
