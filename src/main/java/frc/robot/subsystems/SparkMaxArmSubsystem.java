@@ -118,19 +118,26 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     armEncoder = armMotor.getEncoder();
 
 
-    motorSysIdRoutine = new SysIdRoutine(
-      new SysIdRoutine.Config(), // default config is fine unless you want to change ramp rate/duration
-      new SysIdRoutine.Mechanism(
-          (volts) -> armMotor.setVoltage(volts), // how SysId applies input
-          (log) -> {   // logging data
-            log.motor("ArmMotor")
-               .voltage(Volts.of(armMotor.getBusVoltage() * armMotor.getAppliedOutput()))
-               .angularPosition(Radians.of(armEncoder.getPosition() * 2 * Math.PI)) // radians
-               .angularVelocity(RadiansPerSecond.of(armEncoder.getVelocity() * 2 * Math.PI / 60.0)); // rad/s
-          },
-          this // subsystem reference
-      )
-  );
+    // motorSysIdRoutine = new SysIdRoutine(
+    //   new SysIdRoutine.Config(), // default config is fine unless you want to change ramp rate/duration
+    //   new SysIdRoutine.Mechanism(
+    //       (volts) -> armMotor.setVoltage(volts), // how SysId applies input
+    //       (log) -> {   // logging data
+    //         log.motor("ArmMotor")
+    //            .voltage(Volts.of(armMotor.getBusVoltage() * armMotor.getAppliedOutput()))
+    //            .angularPosition(Radians.of(armEncoder.getPosition() * 2 * Math.PI)) // radians
+    //            .angularVelocity(RadiansPerSecond.of(armEncoder.getVelocity() * 2 * Math.PI / 60.0)); // rad/s
+    //       },
+    //       this // subsystem reference
+    //   )
+  //);
+
+
+    final double min_Angle_Rads = PLACEHOLDER;
+    final double max_Angle_Rads = Math.toRadians(PLACEHOLDER);
+
+
+
 
 
 
