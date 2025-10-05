@@ -48,8 +48,8 @@ public class RobotContainer {
   private final driveSubsystem moveRobot = driveSubsystem.getInstance();
   private  final SparkMaxArmSubsystem armSubsystem = SparkMaxArmSubsystem.getInstance();
 
-  private final Trigger outtake = new Trigger(()->joystick.getRawButton(1));
-  private final Trigger intake = new Trigger(()->joystick.getRawButton(2));
+  private final Trigger intake = new Trigger(()->joystick.getRawButton(1));
+  private final Trigger outtake = new Trigger(()->joystick.getRawButton(2));
   private final Trigger armkv2Volts = new Trigger(()->joystick.getRawButton(7));
   private final Trigger armkv3volts = new Trigger(()->joystick.getRawButton(8));
   private final Trigger armkv4volts = new Trigger(()->joystick.getRawButton(9));
@@ -75,8 +75,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
@@ -92,8 +91,8 @@ public class RobotContainer {
     // m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
     // m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());
 
-    outtake.whileTrue(new IntakeCmd());
-    intake.whileTrue(new Outtake());
+    intake.whileTrue(new IntakeCmd());
+    outtake.whileTrue(new Outtake());
 
     // armkv2Volts.whileTrue(new voltsTestDrive(1.5));
     // armkv3volts.whileTrue(new voltsTestDrive(1.8));
