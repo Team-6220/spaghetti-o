@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ManualArm;
 import frc.robot.commands.driveCommand;
 import frc.robot.commands.moveArmTo0cmd;
 import frc.robot.commands.moveArmTo90cmd;
@@ -40,6 +41,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     // moveRobot.setDefaultCommand(new driveCommand(m_driverController.getHID()));
+    armSubsystem.setDefaultCommand(new ManualArm(m_driverController.getHID()));
     configureBindings();
   }
 
@@ -59,12 +61,18 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+    
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.a().onTrue(armSubsystem.sysIdDynamicForward());
-    m_driverController.b().onTrue(armSubsystem.sysIdDynamicReverse());
-    m_driverController.x().onTrue(armSubsystem.sysIdQuasistaticForward());
-    m_driverController.y().onTrue(armSubsystem.sysIdQuasistaticReverse());
+    
+
+    // m_driverController.b().whileTrue(armSubsystem.sysIdDynamicReverse());
+    m_driverController.a().onTrue(new moveArmTo90cmd());
+    // m_driverController.a().whileTrue(armSubsystem.sysIdDynamicForward());
+    m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
+    m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());
+
+
 
 
     // m_driverController.y().onTrue(new moveArmTo0cmd());
