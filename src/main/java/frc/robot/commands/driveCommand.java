@@ -29,16 +29,18 @@ public class driveCommand extends Command {
   @Override
   public void execute() {
     double rightY = 0;
-    double leftY = 0;
+    double RightX = 0;
     double deadband = 0.05;
     
     if(controller.getRightY() >= deadband|| controller.getRightY() <= -deadband){
       rightY = controller.getRightY();
     }
-    if(controller.getLeftY() >= deadband || controller.getLeftY() <= -deadband){
-      leftY = controller.getLeftY();
+    if(controller.getRightX() >= deadband || controller.getRightX() <= -deadband){
+      RightX = controller.getRightX();
     }
-    wheels.moveDrive(rightY, leftY);
+    double finalR=((1.3*Math.sin(rightY))-(1.2*Math.sin(RightX*Math.PI/2)))/2;
+    double finalL=((1.3*Math.sin(rightY))+(1.2*Math.sin(RightX*Math.PI/2)))/2;
+    wheels.moveDrive(finalR, finalL);
   }
 
   // Called once the command ends or is interrupted.
