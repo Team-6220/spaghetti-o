@@ -7,13 +7,21 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.ManualArm;
+import frc.robot.commands.Outtake;
 import frc.robot.commands.driveCommand;
 import frc.robot.commands.moveArmTo0cmd;
 import frc.robot.commands.moveArmTo90cmd;
+import frc.robot.commands.voltsTestDrive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SparkMaxArmSubsystem;
 import frc.robot.subsystems.driveSubsystem;
+
+import static edu.wpi.first.units.Units.Volts;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,19 +37,30 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
+  IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  
+  private final Joystick joystick = new Joystick(1);
 
   private final driveSubsystem moveRobot = driveSubsystem.getInstance();
   private  final SparkMaxArmSubsystem armSubsystem = SparkMaxArmSubsystem.getInstance();
+
+  private final Trigger outtake = new Trigger(()->joystick.getRawButton(1));
+  private final Trigger intake = new Trigger(()->joystick.getRawButton(2));
+  private final Trigger armkv2Volts = new Trigger(()->joystick.getRawButton(7));
+  private final Trigger armkv3volts = new Trigger(()->joystick.getRawButton(8));
+  private final Trigger armkv4volts = new Trigger(()->joystick.getRawButton(9));
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    // moveRobot.setDefaultCommand(new driveCommand(m_driverController.getHID()));
-    armSubsystem.setDefaultCommand(new ManualArm(m_driverController.getHID()));
+    moveRobot.setDefaultCommand(new driveCommand(m_driverController.getHID()));
+    armSubsystem.setDefaultCommand(new ManualArm(joystick));
+    
     configureBindings();
   }
 
@@ -62,21 +81,29 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     
 
     // m_driverController.b().whileTrue(armSubsystem.sysIdDynamicReverse());
-    m_driverController.a().onTrue(new moveArmTo90cmd());
+    // m_driverController.a().onTrue(new moveArmTo90cmd());
+    // m_driverController.b().onTrue(new moveArmTo0cmd());
     // m_driverController.a().whileTrue(armSubsystem.sysIdDynamicForward());
-    m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
-    m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());
+    // m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
+    // m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());
+
+    outtake.whileTrue(new IntakeCmd());
+    intake.whileTrue(new Outtake());
+
+    // armkv2Volts.whileTrue(new voltsTestDrive(1.5));
+    // armkv3volts.whileTrue(new voltsTestDrive(1.8));
+    // armkv4volts.whileTrue(new voltsTestDrive(2));
 
 
 
 
     // m_driverController.y().onTrue(new moveArmTo0cmd());
-    m_driverController.button(7).onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
+    // m_driverController.button(7).onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

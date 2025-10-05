@@ -42,14 +42,14 @@ public final class ArmConstants {
    */
   public static final double pivotGearRatio = 27.273;
 
-  public static final double kP = 0.01, kI = 0, kD = 0, izone = 2, tolerance = 1.0;
-  public static final double kS = 1.3167, kG = 5.4482, kV = 1.9064, kA = 1.0434;
+  public static final double kP = 0.00, kI = 0, kD = 0, izone = 2, tolerance = 1.0;
+  public static final double kS = 0.33, kG = 1, kV = 1.25, kA = 0.81;
   public static final double allowedClosedLoopError = 0.5;
-  public static final double maxAcceleration = 5000,
+  public static final double maxAcceleration = 110,
       maxVelocity =
-          10000; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
+        115; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
   // units of Revolutions per Minute (RPM)
-  public static final double armMaxDegrees = 90, armMinDegrees = 0;
+  public static final double armMaxDegrees = 120, armMinDegrees = 0;
   /*on branch scrimage v2 PID&FF end (not really tuned) */
 
 }

@@ -4,21 +4,15 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.Volts;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SparkMaxArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ManualArm extends Command {
-  /** Creates a new ManualArm. */
-  SparkMaxArmSubsystem arm = SparkMaxArmSubsystem.getInstance();
-  Joystick joystick;
-  public ManualArm(Joystick joystick) {
-    this.joystick = joystick;
-    addRequirements(arm);
+public class Outtake extends Command {
+  /** Creates a new Outtake. */
+  IntakeSubsystem intake = IntakeSubsystem.getInstance();
+  public Outtake() {
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,12 +23,14 @@ public class ManualArm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.voltageDrive(Volts.of(joystick.getY() * (joystick.getRawAxis(3)*12)));
+    intake.ejectCoral();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.endOccupied();
+  }
 
   // Returns true when the command should end.
   @Override

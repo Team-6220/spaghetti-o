@@ -41,6 +41,7 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   private final TunableNumber armKg = new TunableNumber("arm kG", ArmConstants.kG);
   private final TunableNumber armKv = new TunableNumber("arm kV", ArmConstants.kV);
   private final TunableNumber armKs = new TunableNumber("arm kS", ArmConstants.kS);
+  private final TunableNumber armKa = new TunableNumber("arm kA", ArmConstants.kA);
   private final TunableNumber armIZone =
       new TunableNumber("arm izone", ArmConstants.izone); // default 3
   private final TunableNumber armTolerance =
@@ -105,7 +106,7 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     m_Controller =
         new ProfiledPIDController(armKp.get(), armKi.get(), armKd.get(), m_Constraints);
 
-    m_Feedforward = new ArmFeedforward(armKs.get(), armKg.get(), armKv.get());
+    m_Feedforward = new ArmFeedforward(armKs.get(), armKg.get(), armKv.get(), armKa.get());
 
     m_Controller.setIZone(armIZone.get()); // not sure if we need this
 
@@ -128,9 +129,10 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
       )
   );
 }
-   private void voltageDrive(Voltage voltageOutput)
+   public void voltageDrive(Voltage voltageOutput)
    {
-    SmartDashboard.putNumber("arm output", voltageOutput.magnitude());
+      voltageOutput = voltageOutput.magnitude() > 12 ? Volts.of(12) : voltageOutput.magnitude() < -12 ? Volts.of(-12) : voltageOutput;
+      SmartDashboard.putNumber("arm output", voltageOutput.magnitude());
       leftArmMotor.setVoltage(voltageOutput);
       rightArmMotor.setVoltage(voltageOutput);
    }
@@ -155,8 +157,10 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("arm output", 0);
     SmartDashboard.putNumber("left arm current amps", leftArmMotor.getOutputCurrent());
     SmartDashboard.putNumber("right arm current amps", rightArmMotor.getOutputCurrent());
+    SmartDashboard.putNumber("arm velocity rads", armAngularVelocityRadPerSec().magnitude());
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getarmPosition());
+    SmartDashboard.putNumber(tableKey + "Position rad", armAngularPositionRad().magnitude());
     SmartDashboard.putBoolean(tableKey + "atGoal", armAtGoal());
 
     if (armKp.hasChanged() || armKi.hasChanged() || armKd.hasChanged()) {
@@ -215,6 +219,8 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
     SmartDashboard.putNumber("Arm Goal", m_Controller.getSetpoint().position);
+    SmartDashboard.putNumber("arm setpoint position rads", m_Controller.getSetpoint().position * Math.PI / 180 );
+    SmartDashboard.putNumber("arm setpoint velocity rads/sec", m_Controller.getSetpoint().velocity * Math.PI/180);
     SmartDashboard.putNumber("Wrst FF output", feedForwardOutput);
     SmartDashboard.putNumber("Arm PID out", PIDOutput);
     SmartDashboard.putNumber("arm overall output", calculatedSpeed);
