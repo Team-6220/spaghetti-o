@@ -15,12 +15,16 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.util.TunableNumber;
 import frc.robot.ArmConstants;
 import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,6 +41,7 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   private final TunableNumber armKg = new TunableNumber("arm kG", ArmConstants.kG);
   private final TunableNumber armKv = new TunableNumber("arm kV", ArmConstants.kV);
   private final TunableNumber armKs = new TunableNumber("arm kS", ArmConstants.kS);
+  private final TunableNumber armKa = new TunableNumber("arm kA", ArmConstants.kA);
   private final TunableNumber armIZone =
       new TunableNumber("arm izone", ArmConstants.izone); // default 3
   private final TunableNumber armTolerance =
@@ -47,21 +52,12 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   private final TunableNumber armMaxAccel =
       new TunableNumber("arm max accel", ArmConstants.maxAcceleration);
 
-  private final SparkMax armMotor;
-  private final SparkMax dosMotor;
-  private SparkMaxConfig armMotorConfig = new SparkMaxConfig();
-  private SparkMaxConfig MotorDosConfig = new SparkMaxConfig();
+  private final SparkMax leftArmMotor;
+  private final SparkMax rightArmMotor;
+  private SparkMaxConfig leftArmConfig = new SparkMaxConfig();
+  private SparkMaxConfig rightArmConfig = new SparkMaxConfig();
 
   private final SysIdRoutine motorSysIdRoutine;
-
-
-
-
-
-
-
-
-
 
   private final String tableKey = "Arm_";
 
@@ -81,15 +77,15 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   
 
   public SparkMaxArmSubsystem() {
-    armMotor = new SparkMax(ArmConstants.ArmMotorID, MotorType.kBrushless);
-    dosMotor = new SparkMax(ArmConstants.MotorDosID, MotorType.kBrushless);
-    armMotorConfig
-        .inverted(ArmConstants.motorInverted)
-        .smartCurrentLimit(ArmConstants.stallLimit, ArmConstants.freeLimit)
+    leftArmMotor = new SparkMax(ArmConstants.LEFTARMMOTOR_ID, MotorType.kBrushless);
+    rightArmMotor = new SparkMax(ArmConstants.RIGHTARMMOTOR_ID, MotorType.kBrushless);
+    leftArmConfig
+    //    .inverted(ArmConstants.leftArmInverted)
+        .smartCurrentLimit(ArmConstants.stallLimit)
         .idleMode(ArmConstants.armIdleMode);
-    MotorDosConfig
-      .follow(ArmConstants.ArmMotorID)
-      .smartCurrentLimit(ArmConstants.stallLimit, ArmConstants.freeLimit)
+    rightArmConfig
+    .inverted(ArmConstants.rightArmInverted)
+      .smartCurrentLimit(ArmConstants.stallLimit)
       .idleMode(ArmConstants.armIdleMode);
     // armMotorConfig
     //     .absoluteEncoder
@@ -100,56 +96,71 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     //     .zeroCentered(true);
     
 
-    // armMotorConfig.absoluteEncoder.zeroOffset(.2);//Don't know if we need this
+    leftArmMotor.configure(
+        leftArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
+    rightArmMotor.configure(rightArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    armMotor.configure(
-        armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_Constraints = new TrapezoidProfile.Constraints(armMaxVel.get(), armMaxAccel.get());
 
     m_Controller =
         new ProfiledPIDController(armKp.get(), armKi.get(), armKd.get(), m_Constraints);
 
-    m_Feedforward = new ArmFeedforward(armKs.get(), armKg.get(), armKv.get());
+    m_Feedforward = new ArmFeedforward(armKs.get(), armKg.get(), armKv.get(), armKa.get());
 
     m_Controller.setIZone(armIZone.get()); // not sure if we need this
 
     m_Controller.setTolerance(armTolerance.get()); // default 1.5
 
-    armEncoder = armMotor.getEncoder();
+    armEncoder = leftArmMotor.getEncoder();
 
 
-    // motorSysIdRoutine = new SysIdRoutine(
-    //   new SysIdRoutine.Config(), // default config is fine unless you want to change ramp rate/duration
-    //   new SysIdRoutine.Mechanism(
-    //       (volts) -> armMotor.setVoltage(volts), // how SysId applies input
-    //       (log) -> {   // logging data
-    //         log.motor("ArmMotor")
-    //            .voltage(Volts.of(armMotor.getBusVoltage() * armMotor.getAppliedOutput()))
-    //            .angularPosition(Radians.of(armEncoder.getPosition() * 2 * Math.PI)) // radians
-    //            .angularVelocity(RadiansPerSecond.of(armEncoder.getVelocity() * 2 * Math.PI / 60.0)); // rad/s
-    //       },
-    //       this // subsystem reference
-    //   )
-  //);
+    motorSysIdRoutine = new SysIdRoutine(
+      new SysIdRoutine.Config(), // default config is fine unless you want to change ramp rate/duration
+      new SysIdRoutine.Mechanism(
+          (volts) -> voltageDrive(volts), // how SysId applies input
+          (log) -> {   // logging data
+            log.motor("ArmMotor")
+               .voltage(Volts.of(leftArmMotor.getBusVoltage() * leftArmMotor.getAppliedOutput()))
+               .angularPosition(armAngularPositionRad()) // radians
+               .angularVelocity(armAngularVelocityRadPerSec()); // rad/s
+          },
+          this // subsystem reference
+      )
+  );
+}
+   public void voltageDrive(Voltage voltageOutput)
+   {
+      voltageOutput = voltageOutput.magnitude() > 12 ? Volts.of(12) : voltageOutput.magnitude() < -12 ? Volts.of(-12) : voltageOutput;
+      SmartDashboard.putNumber("arm output", voltageOutput.magnitude());
+      leftArmMotor.setVoltage(voltageOutput);
+      rightArmMotor.setVoltage(voltageOutput);
+   }
 
+   private Angle armAngularPositionRad(){
+    double position = (armEncoder.getPosition()/ ArmConstants.pivotGearRatio) * 2 * Math.PI;
+    return Radians.of(position);
+  }
 
-    final double min_Angle_Rads = PLACEHOLDER;
-    final double max_Angle_Rads = Math.toRadians(PLACEHOLDER);
+  private Angle armAngularPositionDeg(){
+    double position = (armEncoder.getPosition() / ArmConstants.pivotGearRatio)* 360;
+    return Degrees.of(position);
+  }
 
-
-
-
-
-
-
-    // m_Controller.setGoal(
-    //     90); // cuz in manuel elevator we're calling arm drive to goal to maintain it's position
+  private AngularVelocity armAngularVelocityRadPerSec(){
+    double angVel = (armEncoder.getVelocity()/ArmConstants.pivotGearRatio) * 2 * Math.PI / 60;
+    return RadiansPerSecond.of(angVel);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("arm output", 0);
+    SmartDashboard.putNumber("left arm current amps", leftArmMotor.getOutputCurrent());
+    SmartDashboard.putNumber("right arm current amps", rightArmMotor.getOutputCurrent());
+    SmartDashboard.putNumber("arm velocity rads", armAngularVelocityRadPerSec().magnitude());
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getarmPosition());
+    SmartDashboard.putNumber(tableKey + "Position rad", armAngularPositionRad().magnitude());
     SmartDashboard.putBoolean(tableKey + "atGoal", armAtGoal());
 
     if (armKp.hasChanged() || armKi.hasChanged() || armKd.hasChanged()) {
@@ -208,10 +219,13 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
     SmartDashboard.putNumber("Arm Goal", m_Controller.getSetpoint().position);
+    SmartDashboard.putNumber("arm setpoint position rads", m_Controller.getSetpoint().position * Math.PI / 180 );
+    SmartDashboard.putNumber("arm setpoint velocity rads/sec", m_Controller.getSetpoint().velocity * Math.PI/180);
     SmartDashboard.putNumber("Wrst FF output", feedForwardOutput);
     SmartDashboard.putNumber("Arm PID out", PIDOutput);
     SmartDashboard.putNumber("arm overall output", calculatedSpeed);
-    armMotor.setVoltage(calculatedSpeed);
+    leftArmMotor.setVoltage(calculatedSpeed);
+    rightArmMotor.setVoltage(calculatedSpeed);
   }
 
   public void resetPID() {
@@ -220,15 +234,21 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
 
   /** Raw encoder value subtracted by the offset at zero */
   public double getarmPosition() {
-    double armPosition = armEncoder.getPosition() * 360;
-    return armPosition;
+   return armAngularPositionDeg().magnitude();
   }
 
-  /** Driving in Decimal Perent */
-  public void simpleDrive(double motorOutput) {
+  /** Driving in percent*/
+  public void simpleDrivePercentoutput(double motorOutput) {
+    
     SmartDashboard.putNumber("arm output", motorOutput);
-    armMotor.setVoltage(motorOutput);
+    if(getarmPosition() > ArmConstants.armMaxDegrees || getarmPosition() < ArmConstants.armMinDegrees)
+    {
+      stop();
+    }
+    leftArmMotor.set(motorOutput);
+    rightArmMotor.set(motorOutput);
   }
+  
 
   public boolean armAtGoal() {
     return m_Controller.atGoal();
@@ -239,7 +259,8 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    armMotor.setVoltage(0);
+    leftArmMotor.setVoltage(0);
+    rightArmMotor.setVoltage(0);
   }
 
   public void resetRelativeEncoder(){
