@@ -18,10 +18,11 @@ public class StraightAuto extends SequentialCommandGroup {
     driveSubsystem drive = driveSubsystem.getInstance();
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    addRequirements(drive);
     addCommands(
       new PrintCommand("starting"),
-        new RunCommand(() -> drive.moveDrive(0.95, 0.95))
-            .withTimeout(5),
+        new RunCommand(() -> drive.moveDrive(-0.45, -0.45))
+            .withTimeout(2),
         new RunCommand(() -> drive.moveDrive(0, 0)),
         new PrintCommand("done")
     );

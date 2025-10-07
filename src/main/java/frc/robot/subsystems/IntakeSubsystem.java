@@ -48,6 +48,12 @@ public class IntakeSubsystem extends SubsystemBase {
         tableKey + "supply current", intakeMotor.getSupplyCurrent().getValueAsDouble());
     SmartDashboard.putNumber(
         tableKey + "torque current", intakeMotor.getTorqueCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(
+        tableKey + "device temperature degrees c", intakeMotor.getDeviceTemp().getValueAsDouble());
+    SmartDashboard.putNumber(
+        tableKey + "processor temperature degrees c", intakeMotor.getProcessorTemp().getValueAsDouble());
+    SmartDashboard.putNumber(
+        tableKey + "processor voltage", intakeMotor.getMotorVoltage().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 

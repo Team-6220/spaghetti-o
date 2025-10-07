@@ -32,14 +32,14 @@ public class driveCommand extends Command {
     double RightX = 0;
     double deadband = 0.05;
     
-    if(controller.getRightY() >= deadband|| controller.getRightY() <= -deadband){
-      rightY = controller.getRightY();
+    if(controller.getLeftY() >= deadband|| controller.getLeftY() <= -deadband){
+      rightY = controller.getLeftY();
     }
-    if(controller.getRightX() >= deadband || controller.getRightX() <= -deadband){
-      RightX = controller.getRightX();
+    if(controller.getLeftX() >= deadband || controller.getLeftX() <= -deadband){
+      RightX = controller.getLeftX();
     }
-    double finalR=((1.3*Math.sin(rightY))-(1.2*Math.sin(RightX*Math.PI/2)))/2;
-    double finalL=((1.3*Math.sin(rightY))+(1.2*Math.sin(RightX*Math.PI/2)))/2;
+    double finalL=((1.4*Math.sin(rightY))-(Math.sin(RightX*Math.PI/2)))/2;
+    double finalR=((1.4*Math.sin(rightY))+(Math.sin(RightX*Math.PI/2)))/2;
     wheels.moveDrive(finalR, finalL);
   }
 

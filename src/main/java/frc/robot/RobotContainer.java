@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Autos.StraightAuto;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
@@ -102,7 +103,7 @@ public class RobotContainer {
 
 
     // m_driverController.y().onTrue(new moveArmTo0cmd());
-    // m_driverController.button(7).onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
+    m_driverController.button(7).onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -111,6 +112,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return new StraightAuto();
   }
 }
