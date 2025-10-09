@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+// CopyLeft (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -28,18 +28,18 @@ public class driveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rightY = 0;
-    double RightX = 0;
+    double LeftY = 0;
+    double LeftX = 0;
     double deadband = 0.05;
     
-    if(controller.getRightY() >= deadband|| controller.getRightY() <= -deadband){
-      rightY = controller.getRightY();
+    if(controller.getLeftY() >= deadband|| controller.getLeftY() <= -deadband){
+      LeftY = controller.getLeftY();
     }
-    if(controller.getRightX() >= deadband || controller.getRightX() <= -deadband){
-      RightX = controller.getRightX();
+    if(controller.getLeftX() >= deadband || controller.getLeftX() <= -deadband){
+      LeftX = -controller.getLeftX();
     }
-    double finalR=((1.3*Math.sin(rightY))-(1.2*Math.sin(RightX*Math.PI/2)))/2;
-    double finalL=((1.3*Math.sin(rightY))+(1.2*Math.sin(RightX*Math.PI/2)))/2;
+    double finalR=((Math.pow(LeftY*1.3, 3))-(Math.pow(LeftX*1.2, 3)))/2;
+    double finalL=((Math.pow(LeftY*1.3, 3))+(Math.pow(LeftX*1.2, 3)))/2;
     wheels.moveDrive(finalR, finalL);
   }
 

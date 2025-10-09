@@ -42,8 +42,8 @@ public final class ArmConstants {
    */
   public static final double pivotGearRatio = 27.273;
 
-  public static final double kP = 0.00, kI = 0, kD = 0, izone = 2, tolerance = 1.0;
-  public static final double kS = 0.33, kG = 1, kV = 0.53, kA = 0.39;
+  public static final double kP = 0.2, kI = 0.01, kD = 0, izone = 2, tolerance = 1.0;
+  public static final double kS = 0, kG = 1.23, kV = 0, kA = 0;
   public static final double allowedClosedLoopError = 0.5;
   public static final double maxAcceleration = 110,
       maxVelocity =
