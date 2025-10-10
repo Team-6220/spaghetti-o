@@ -13,7 +13,8 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.driveCommand;
 import frc.robot.commands.moveArmTo0cmd;
-import frc.robot.commands.moveArmTo90cmd;
+import frc.robot.commands.moveArmToBackwardOuttake;
+import frc.robot.commands.moveArmToForwardOuttake;
 import frc.robot.commands.voltsTestDrive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -86,8 +87,9 @@ public class RobotContainer {
     
 
     // m_driverController.b().whileTrue(armSubsystem.sysIdDynamicReverse());
-    m_driverController.a().onTrue(new moveArmTo90cmd());
+    m_driverController.a().onTrue(new moveArmToBackwardOuttake());
     m_driverController.b().onTrue(new moveArmTo0cmd());
+    m_driverController.y().onTrue(new moveArmToForwardOuttake());
     // m_driverController.a().whileTrue(armSubsystem.sysIdDynamicForward());
     // m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
     // m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());

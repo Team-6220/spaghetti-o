@@ -181,7 +181,7 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     }
 
     if (armMaxVel.hasChanged() || armMaxAccel.hasChanged()) {
-      m_Constraints = new TrapezoidProfile.Constraints(armMaxVel.get(), armMaxAccel.get());
+      m_Constraints = new TrapezoidProfile.Constraints(armMaxVel.get() * Math.PI / 180, armMaxAccel.get() * Math.PI / 180);
       m_Controller.setConstraints(m_Constraints);
     }
 

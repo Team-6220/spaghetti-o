@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SparkMaxArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class moveArmTo90cmd extends Command {
+public class moveArmToForwardOuttake extends Command {
   /** Creates a new moveArmTo90cmd. */
   SparkMaxArmSubsystem pidMotor;
-  public moveArmTo90cmd() {
+  public moveArmToForwardOuttake() {
     pidMotor = SparkMaxArmSubsystem.getInstance();
     addRequirements(pidMotor);
 
@@ -22,7 +22,7 @@ public class moveArmTo90cmd extends Command {
   @Override
   public void initialize() {
     pidMotor.resetPID();
-    pidMotor.setGoal(90);
+    pidMotor.setGoal(72);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

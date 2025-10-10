@@ -45,11 +45,11 @@ public final class ArmConstants {
   public static final double kP = 0.2, kI = 0.01, kD = 0, izone = 2, tolerance = 1.0;
   public static final double kS = 0, kG = 1.23, kV = 0, kA = 0;
   public static final double allowedClosedLoopError = 0.5;
-  public static final double maxAcceleration = 110,
+  public static final double maxAcceleration = 50000,
       maxVelocity =
-        115; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
+        5000; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
   // units of Revolutions per Minute (RPM)
-  public static final double armMaxDegrees = 120, armMinDegrees = 0;
+  public static final double armMaxDegrees = 170, armMinDegrees = 0;
   /*on branch scrimage v2 PID&FF end (not really tuned) */
 
 }
