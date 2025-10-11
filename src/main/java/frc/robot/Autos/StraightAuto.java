@@ -7,6 +7,8 @@ package frc.robot.Autos;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Outtake;
+import frc.robot.commands.moveArmToForwardOuttake;
 import frc.robot.subsystems.driveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,6 +26,8 @@ public class StraightAuto extends SequentialCommandGroup {
         new RunCommand(() -> drive.moveDrive(-0.3, -0.3))
             .withTimeout(2.5),
         new RunCommand(() -> drive.moveDrive(0, 0)),
+        new moveArmToForwardOuttake(),
+        new Outtake(),
         new PrintCommand("done")
     );
   }
