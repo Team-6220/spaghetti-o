@@ -52,9 +52,7 @@ public class RobotContainer {
 
   private final Trigger intake = new Trigger(()->joystick.getRawButton(1));
   private final Trigger outtake = new Trigger(()->joystick.getRawButton(2));
-  private final Trigger armkv2Volts = new Trigger(()->joystick.getRawButton(7));
-  private final Trigger armkv3volts = new Trigger(()->joystick.getRawButton(8));
-  private final Trigger armkv4volts = new Trigger(()->joystick.getRawButton(9));
+  private final Trigger manualArmOverride = new Trigger(()->joystick.getRawButton(5));
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -87,15 +85,16 @@ public class RobotContainer {
     
 
     // m_driverController.b().whileTrue(armSubsystem.sysIdDynamicReverse());
-    m_driverController.a().onTrue(new moveArmToBackwardOuttake());
-    m_driverController.b().onTrue(new moveArmTo0cmd());
-    m_driverController.y().onTrue(new moveArmToForwardOuttake());
+    m_driverController.y().onTrue(new moveArmToBackwardOuttake());
+    m_driverController.a().onTrue(new moveArmTo0cmd());
+    m_driverController.b().onTrue(new moveArmToForwardOuttake());
     // m_driverController.a().whileTrue(armSubsystem.sysIdDynamicForward());
     // m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
     // m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());
 
     intake.whileTrue(new IntakeCmd());
     outtake.whileTrue(new Outtake());
+    manualArmOverride.onTrue(new ManualArm(joystick));
 
     // armkv2Volts.whileTrue(new voltsTestDrive(1.5));
     // armkv3volts.whileTrue(new voltsTestDrive(1.8));
