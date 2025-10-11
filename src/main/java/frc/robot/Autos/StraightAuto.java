@@ -21,8 +21,8 @@ public class StraightAuto extends SequentialCommandGroup {
     addRequirements(drive);
     addCommands(
       new PrintCommand("starting"),
-        new RunCommand(() -> drive.moveDrive(-0.45, -0.45))
-            .withTimeout(2),
+        new RunCommand(() -> drive.moveDrive(-0.3, -0.3))
+            .withTimeout(2.5),
         new RunCommand(() -> drive.moveDrive(0, 0)),
         new PrintCommand("done")
     );
