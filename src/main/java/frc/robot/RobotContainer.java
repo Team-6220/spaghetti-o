@@ -56,6 +56,7 @@ public class RobotContainer {
   private final Trigger armHigh = new Trigger(()->joystick.getRawButton(7));
   private final Trigger armMid = new Trigger(()->joystick.getRawButton(9));
   private final Trigger armLow = new Trigger(()->joystick.getRawButton(11));
+  private final Trigger armReset = new Trigger(()->joystick.getRawButton(6));
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -91,6 +92,7 @@ public class RobotContainer {
     armHigh.onTrue(new moveArmToBackwardOuttake());
     armLow.onTrue(new moveArmTo0cmd());
     armMid.onTrue(new moveArmToForwardOuttake());
+    armReset.onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
     // m_driverController.a().whileTrue(armSubsystem.sysIdDynamicForward());
     // m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
     // m_driverController.y().whileTrue(armSubsystem.sysIdQuasistaticReverse());

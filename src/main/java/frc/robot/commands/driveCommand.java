@@ -40,6 +40,8 @@ public class driveCommand extends Command {
     }
     double finalR=((Math.pow(LeftY*1.3, 3))-(Math.pow(LeftX*1.2, 3)))/2;
     double finalL=((Math.pow(LeftY*1.3, 3))+(Math.pow(LeftX*1.2, 3)))/2;
+    finalR=Math.max(Math.min(finalR, 0.9), -0.9);
+    finalL=Math.max(Math.min(finalL, 0.9), -0.9);
     wheels.moveDrive(finalR, finalL);
   }
 

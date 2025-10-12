@@ -264,7 +264,13 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   }
 
   public void resetRelativeEncoder(){
+    System.out.println("reset relative encoder");
     armEncoder.setPosition(0);
+  }
+
+  public void setRelativeEncoder(double positionDeg)
+  {
+    armEncoder.setPosition(positionDeg*ArmConstants.pivotGearRatio/360);
   }
 
   /**
