@@ -8,8 +8,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 /** Add your docs here. */
 public final class ArmConstants {
-  public static final int LEFTARMMOTOR_ID = 18;
-  public static final int RIGHTARMMOTOR_ID = 19;
+  public static final int LEFTARMMOTOR_ID = 45;
+  public static final int RIGHTARMMOTOR_ID = 46;
   public static final boolean leftArmInverted = true;
   public static final boolean rightArmInverted = true;
   public static final IdleMode armIdleMode = IdleMode.kBrake;
