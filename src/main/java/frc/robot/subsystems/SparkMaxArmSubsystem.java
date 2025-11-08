@@ -210,22 +210,14 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   }
 
   public void driveToGoal() {
-    PIDOutput = m_Controller.calculate(getarmPosition());
-
-    feedForwardOutput =
-        m_Feedforward.calculate(
-            m_Controller.getSetpoint().position * Math.PI / 180,
-            m_Controller.getSetpoint().velocity * Math.PI / 180);
-    double calculatedSpeed = PIDOutput + feedForwardOutput;
-
-    SmartDashboard.putNumber("Arm Goal", m_Controller.getSetpoint().position);
-    SmartDashboard.putNumber("arm setpoint position rads", m_Controller.getSetpoint().position * Math.PI / 180 );
-    SmartDashboard.putNumber("arm setpoint velocity rads/sec", m_Controller.getSetpoint().velocity * Math.PI/180);
-    SmartDashboard.putNumber("Wrst FF output", feedForwardOutput);
-    SmartDashboard.putNumber("Arm PID out", PIDOutput);
-    SmartDashboard.putNumber("arm overall output", calculatedSpeed);
-    leftArmMotor.setVoltage(calculatedSpeed);
-    rightArmMotor.setVoltage(calculatedSpeed);
+  //calculate feedforward output
+    //calculate pid output
+    //calculate sum of pid and feedforard
+    //apply that sum to the motor
+    //optional -- smartdashboard output things for debugging
+    
+    //example for smartdashboard output
+    SmartDashboard.putNumber(tableKey + "goal", m_Controller.getGoal().position);
   }
 
   public void resetPID() {
@@ -300,7 +292,3 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     return motorSysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
   }
 }
-
-
-
-abeocibIWECBIWHBEFHWBEFI
