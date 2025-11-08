@@ -9,8 +9,8 @@ public final class IntakeConstants {
     public static final int INTAKEMOTOR_ID = 15;
     public static final boolean INVERTED = false;
 
-    public static final double ejectSpeed = -0.5;
-    public static final double intakeSpeed = 0.1;
+    public static final double ejectSpeed = 0.1;
+    public static final double intakeSpeed = -0.1;
   
     public static final double maxCurrent = 25.0;
     public static final double currentLimit = 10.0;

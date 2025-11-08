@@ -49,7 +49,7 @@ public final class ArmConstants {
       maxVelocity =
         5000; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
   // units of Revolutions per Minute (RPM)
-  public static final double armMaxDegrees = 170, armMinDegrees = 0;
+  public static final double armMaxDegrees = 90, armMinDegrees = 50;
   /*on branch scrimage v2 PID&FF end (not really tuned) */
 
 }
