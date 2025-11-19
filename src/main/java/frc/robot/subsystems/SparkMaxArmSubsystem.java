@@ -300,7 +300,3 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     return motorSysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
   }
 }
-
-
-
-abeocibIWECBIWHBEFHWBEFI
