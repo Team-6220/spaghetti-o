@@ -23,13 +23,18 @@ public class driveSubsystem extends SubsystemBase {
   VictorSPX rightSlave; 
   
   public driveSubsystem() {
-    leftMaster = new VictorSPX(2);
+    //reminder!!
+    //left master - index 2
+    //left slave - index 1
+    //right master - index 3
+    //right slave - index 4
+    leftMaster = new VictorSPX(3);
     leftSlave = new VictorSPX(1);
 
-    rightMaster = new VictorSPX(3);
-    rightSlave = new VictorSPX(4);
+    rightMaster = new VictorSPX(2);
+    rightSlave = new VictorSPX(7);
 
-    rightSlave.follow(rightMaster);
+    rightMaster.follow(rightSlave);
     leftSlave.follow(leftMaster);
 
     leftMaster.setInverted(true);

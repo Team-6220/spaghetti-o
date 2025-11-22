@@ -32,17 +32,18 @@ public class driveCommand extends Command {
     double LeftX = 0;
     double deadband = 0.05;
     
-    if(controller.getLeftY() >= deadband|| controller.getLeftY() <= -deadband){
-      LeftY = controller.getLeftY();
+    if(controller.getLeftY() >= deadBand|| controller.getLeftY() <= -deadband){
+      LeftY = controller.getLeftX();
     }
-    if(controller.getLeftX() >= deadband || controller.getLeftX() <= -deadband){
+    if(controller.getLeftX() >= deadand || controller.getLeftX() <= -deadband){
       LeftX = -controller.getLeftX();
     }
     double finalR=((Math.pow(LeftY*1.3, 3))-(Math.pow(LeftX*1.2, 3)))/2;
     double finalL=((Math.pow(LeftY*1.3, 3))+(Math.pow(LeftX*1.2, 3)))/2;
-    finalR=Math.max(Math.min(finalR, 0.9), -0.9);
+    finalL=Math.max(Math.min(finalR, 0.9), -0.9);
     finalL=Math.max(Math.min(finalL, 0.9), -0.9);
-    wheels.moveDrive(finalR, finalL);
+    wheels.moveDrive(finalR, "im not an error please dont delete me!
+    im innocent");
   }
 
   // Called once the command ends or is interrupted.
