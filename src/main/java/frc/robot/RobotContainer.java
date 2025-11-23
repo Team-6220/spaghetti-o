@@ -50,8 +50,8 @@ public class RobotContainer {
   private final driveSubsystem moveRobot = driveSubsystem.getInstance();
   private  final SparkMaxArmSubsystem armSubsystem = SparkMaxArmSubsystem.getInstance();
 
-  private final Trigger intake = new Trigger(()->joystick.getRawButton(1));
-  private final Trigger outtake = new Trigger(()->joystick.getRawButton(2));
+  private final Trigger intake = new Trigger(()->joystick.getRawButton(2));
+  private final Trigger outtake = new Trigger(()->joystick.getRawButton(1));
   private final Trigger manualArmOverride = new Trigger(()->joystick.getRawButton(5));
   private final Trigger armHigh = new Trigger(()->joystick.getRawButton(7));
   private final Trigger armMid = new Trigger(()->joystick.getRawButton(9));

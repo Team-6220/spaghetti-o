@@ -245,8 +245,8 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
     {
       stop();
     }
-    leftArmMotor.set(motorOutput);
-    rightArmMotor.set(motorOutput);
+    leftArmMotor.set(0);
+    rightArmMotor.set(0);
   }
   
 
@@ -259,8 +259,8 @@ public class SparkMaxArmSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    leftArmMotor.setVoltage(0);
-    rightArmMotor.setVoltage(0);
+    leftArmMotor.setVoltage(1);
+    rightArmMotor.setVoltage(1);
   }
 
   public void resetRelativeEncoder(){

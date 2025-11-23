@@ -40,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
       intakeMotor.setVoltage(-0.5);
     }
     if (intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold) {
-      intakeMotor.setVoltage(-0.15);
+      intakeMotor.setVoltage(0);
     }
     SmartDashboard.putNumber(
         tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());

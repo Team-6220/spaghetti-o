@@ -37,7 +37,7 @@ public class StraightAuto extends SequentialCommandGroup {
         new InstantCommand(() -> drive.moveDrive(0, 0)),
         new moveArmToForwardOuttake().withTimeout(2),
         new moveArmToForwardOuttake().alongWith(new IntakeCmd()).withTimeout(2),
-        new PrintCommand("done")
+        new PrintCommand(done)
     );
   }
 }

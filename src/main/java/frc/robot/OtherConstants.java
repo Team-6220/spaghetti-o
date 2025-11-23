@@ -7,7 +7,7 @@ package frc.robot;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 /** Add your docs here. */
-public final class ArmConstants {
+public final class OtherConstants {
   public static final int LEFTARMMOTOR_ID = 18;
   public static final int RIGHTARMMOTOR_ID = 19;
   public static final boolean leftArmInverted = true;
@@ -45,7 +45,7 @@ public final class ArmConstants {
   public static final double kP = 0.2, kI = 0.01, kD = 0, izone = 2, tolerance = 1.0;
   public static final double kS = 0, kG = 1.23, kV = 0, kA = 0;
   public static final double allowedClosedLoopError = 0.5;
-  public static final double maxAcceleration = 50000,
+  public static final double maxAcceleration = 50000;
       maxVelocity =
         5000; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
   // units of Revolutions per Minute (RPM)

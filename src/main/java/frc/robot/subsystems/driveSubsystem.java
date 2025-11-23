@@ -37,8 +37,8 @@ public class driveSubsystem extends SubsystemBase {
     rightMaster.follow(rightSlave);
     leftSlave.follow(leftMaster);
 
-    leftMaster.setInverted(true);
-    leftSlave.setInverted(true);
+    leftMaster.setInverted(false);
+    leftSlave.setInverted(false);
   }
 
   @Override

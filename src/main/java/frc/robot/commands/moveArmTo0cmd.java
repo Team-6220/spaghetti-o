@@ -22,7 +22,7 @@ public class moveArmTo0cmd extends Command {
   @Override
   public void initialize() {
     pidMotor.resetPID();
-    pidMotor.setGoal(0);
+    pidMotor.setGoal(90);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
