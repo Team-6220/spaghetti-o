@@ -5,36 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class moveWristTo0cmd extends Command {
-  /** Creates a new moveWristTo90cmd. */
-  V2_SparkMaxWristSubsystem pidMotor;
-  public moveWristTo0cmd() {
-    pidMotor = V2_SparkMaxWristSubsystem.getInstance();
-    addRequirements(pidMotor);
-
+public class IntakeCmd extends Command {
+  /** Creates a new Intake. */
+  IntakeSubsystem intake = IntakeSubsystem.getInstance();
+  public IntakeCmd() {
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    pidMotor.resetPID();
-    pidMotor.setGoal(0);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pidMotor.driveToGoal();
+    intake.intakeCoral();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    pidMotor.stop();
+    intake.endOccupied();
   }
 
   // Returns true when the command should end.

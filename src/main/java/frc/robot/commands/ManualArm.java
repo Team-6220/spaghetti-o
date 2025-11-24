@@ -4,37 +4,38 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Volts;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.robot.subsystems.SparkMaxArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class moveWristTo90cmd extends Command {
-  /** Creates a new moveWristTo90cmd. */
-  V2_SparkMaxWristSubsystem pidMotor;
-  public moveWristTo90cmd() {
-    pidMotor = V2_SparkMaxWristSubsystem.getInstance();
-    addRequirements(pidMotor);
-
+public class ManualArm extends Command {
+  /** Creates a new ManualArm. */
+  SparkMaxArmSubsystem arm = SparkMaxArmSubsystem.getInstance();
+  Joystick joystick;
+  public ManualArm(Joystick joystick) {
+    this.joystick = joystick;
+    addRequirements(arm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    pidMotor.resetPID();
-    pidMotor.setGoal(90);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pidMotor.driveToGoal();
+    arm.voltageDrive(Volts.of(joystick.getY() * (joystick.getRawAxis(3)*12)));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    pidMotor.stop();
+    arm.stop();
   }
 
   // Returns true when the command should end.
