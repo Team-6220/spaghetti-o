@@ -89,9 +89,9 @@ public class RobotContainer {
     
 
     // m_driverController.b().whileTrue(armSubsystem.sysIdDynamicReverse());
-    armHigh.onTrue(new moveArmToBackwardOuttake());
+    m_driverController.b().onTrue(new moveArmToForwardOuttake());
     armLow.onTrue(new moveArmTo0cmd());
-    armMid.onTrue(new moveArmToForwardOuttake());
+    m_driverController.a().onTrue(new moveArmTo0cmd());
     armReset.onTrue(new InstantCommand(()->armSubsystem.resetRelativeEncoder()));
     // m_driverController.a().whileTrue(armSubsystem.sysIdDynamicForward());
     // m_driverController.x().whileTrue(armSubsystem.sysIdQuasistaticForward());
